@@ -1,0 +1,192 @@
+<form id="getQuoteForm" style="max-width:600px; margin:auto;">
+    <!-- Personal Info -->
+    <div style="display:flex; gap:10px;">
+      <div style="flex:1;">
+        <label>First Name</label>
+        <input type="text" name="firstName" required>
+      </div>
+      <div style="flex:1;">
+        <label>Last Name</label>
+        <input type="text" name="lastName" required>
+      </div>
+    </div>
+  
+    <div style="display:flex; gap:10px; margin-top:10px;">
+      <div style="flex:1;">
+        <label>Email</label>
+        <input type="email" name="email" required>
+      </div>
+      <div style="flex:1;">
+        <label>Phone</label>
+        <input type="tel" name="phone" required>
+      </div>
+    </div>
+  
+    <div style="margin-top:10px;">
+      <label>Company Name</label>
+      <input type="text" name="companyName">
+    </div>
+  
+    <!-- Trip Info -->
+    <div style="display:flex; gap:10px; margin-top:10px;">
+      <div style="flex:1;">
+        <label>Pickup Date</label>
+        <input type="date" name="pickupDate" required>
+      </div>
+      <div style="flex:1;">
+        <label>Pickup Time</label>
+        <select name="pickupTime" required></select>
+      </div>
+      <div style="flex:1;">
+        <label>Drop Off Time</label>
+        <select name="dropoffTime" required></select>
+      </div>
+    </div>
+  
+    <!-- Addresses -->
+    <div style="margin-top:10px;">
+      <label>Pickup Address *</label>
+      <input type="text" id="pickupAddress" name="pickupAddress" required placeholder="Street, City, State, ZIP">
+      <div id="pickupError" style="color:red;display:none;">Please provide full address details.</div>
+    </div>
+    <div style="margin-top:10px;">
+      <label>Drop Off Destination *</label>
+      <input type="text" id="dropoffAddress" name="dropoffAddress" required placeholder="Street, City, State, ZIP">
+      <div id="dropoffError" style="color:red;display:none;">Please provide full address details.</div>
+    </div>
+  
+    <!-- Service Details -->
+    <div style="display:flex; gap:10px; margin-top:10px;">
+      <div style="flex:1;">
+        <label>Type of Service</label>
+        <select name="serviceType">
+          <option value="">Select service</option>
+          <option value="Standard">Standard</option>
+          <option value="Premium">Premium</option>
+        </select>
+      </div>
+      <div style="flex:1;">
+        <label>Type of Vehicle</label>
+        <select name="vehicleType" id="vehicleTypeSelect">
+          <option value="">Select vehicle</option>
+          <option value="Sedan">Sedan</option>
+          <option value="SUV">SUV</option>
+          <option value="Van">Van</option>
+        </select>
+      </div>
+    </div>
+  
+    <!-- Vehicle Image & Info -->
+    <div id="vehicleDisplay" style="margin:10px 0; display:none;">
+      <img id="vehicleImg" src="" alt="Vehicle Image" style="width:100px; display:block;"/>
+      <div>Capacity: <span id="vehiclePassengers"></span> Passengers, <span id="vehicleBags"></span> Suitcases</div>
+    </div>
+  
+    <!-- Passenger & Luggage -->
+    <div style="display:flex; gap:10px; margin-top:10px;">
+      <div style="flex:1;">
+        <label>Number of Suitcases</label>
+        <input type="number" name="numSuitcases" id="numSuitcases" min="0" required>
+      </div>
+      <div style="flex:1;">
+        <label>Number of Passengers</label>
+        <input type="number" name="numPassengers" id="numPassengers" min="1" required>
+      </div>
+    </div>
+    <div id="capError" style="color:red;display:none; margin-top:5px;">Passenger or luggage count exceeds vehicle capacity.</div>
+  
+    <div style="margin-top:10px;">
+      <label>Any Other Request</label>
+      <textarea name="otherRequest" rows="2"></textarea>
+    </div>
+  
+    <button type="submit" style="margin-top:15px;">Get Quote</button>
+  </form>
+  
+  <!-- Google Places API integration and vehicle logic -->
+  <script>
+    // Dummy data for vehicle types and capacities/photos
+    const vehicleData = {
+      Sedan: {passengers: 3, bags: 2, img: 'https://dummyimage.com/100x60/000/fff&text=Sedan'},
+      SUV: {passengers: 5, bags: 4, img: 'https://dummyimage.com/100x60/000/fff&text=SUV'},
+      Van: {passengers: 8, bags: 7, img: 'https://dummyimage.com/100x60/000/fff&text=Van'},
+    };
+  
+    // Populate time dropdowns (every 15min, 24hr, am/pm)
+    function populateTimeSelects() {
+      const pickupTime = document.querySelector('select[name="pickupTime"]');
+      const dropoffTime = document.querySelector('select[name="dropoffTime"]');
+      for (let h=0; h<24; h++) {
+        for (let m=0; m<60; m+=15) {
+          const ampm = h<12 ? 'AM':'PM';
+          const hour12 = h%12===0 ? 12 : h%12;
+          const mins = m<10?'0'+m:m;
+          const val = `${h.toString().padStart(2,'0')}:${mins}`;
+          const text = `${hour12}:${mins} ${ampm}`;
+          const opt = new Option(text, val);
+          pickupTime.append(opt.cloneNode(true));
+          dropoffTime.append(opt.cloneNode(true));
+        }
+      }
+    }
+    populateTimeSelects();
+  
+    // Vehicle image/capacity logic
+    document.getElementById('vehicleTypeSelect').addEventListener('change', function(){
+      const vtype = this.value;
+      const disp = document.getElementById('vehicleDisplay');
+      if (vehicleData[vtype]) {
+        document.getElementById('vehicleImg').src = vehicleData[vtype].img;
+        document.getElementById('vehiclePassengers').textContent = vehicleData[vtype].passengers;
+        document.getElementById('vehicleBags').textContent = vehicleData[vtype].bags;
+        disp.style.display = 'block';
+        // autofill limits
+        document.getElementById('numPassengers').max = vehicleData[vtype].passengers;
+        document.getElementById('numSuitcases').max = vehicleData[vtype].bags;
+      } else {
+        disp.style.display = 'none';
+        document.getElementById('numPassengers').max = "";
+        document.getElementById('numSuitcases').max = "";
+      }
+    });
+  
+    // Validation logic
+    document.getElementById('getQuoteForm').addEventListener('submit', function(e){
+      let valid = true;
+      // Address validation (must have street, city, state, zip)
+      ['pickup','dropoff'].forEach(function(prefix){
+        const val = document.getElementById(prefix+'Address').value;
+        const regex = /.+,\s?.+,\s?[A-Za-z]{2,},\s?\d{5,}/; // crude US+global check
+        if (!regex.test(val)) {
+          document.getElementById(prefix+'Error').style.display = 'block';
+          valid = false;
+        } else {
+          document.getElementById(prefix+'Error').style.display = 'none';
+        }
+      });
+      // Vehicle capacity logic
+      const vtype = document.getElementById('vehicleTypeSelect').value;
+      if (vehicleData[vtype]) {
+        let np = parseInt(document.getElementById('numPassengers').value);
+        let ns = parseInt(document.getElementById('numSuitcases').value);
+        if (np > vehicleData[vtype].passengers || ns > vehicleData[vtype].bags) {
+          document.getElementById('capError').style.display = 'block';
+          valid = false;
+        } else {
+          document.getElementById('capError').style.display = 'none';
+        }
+      }
+      if (!valid) e.preventDefault();
+    });
+  
+    // Google Places autocomplete (pseudo code - requires actual API key)
+    function initAutocomplete() {
+      const options = {types: ['address'], componentRestrictions: {country: []}, fields: ["address_components","geometry"]};
+      new google.maps.places.Autocomplete(document.getElementById('pickupAddress'), options);
+      new google.maps.places.Autocomplete(document.getElementById('dropoffAddress'), options);
+    }
+  </script>
+  <!--
+  Replace the following with your actual Google Maps JavaScript API script including 'places' library and call `initAutocomplete` on load. 
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&callback=initAutocomplete" async defer></script>
+  -->
