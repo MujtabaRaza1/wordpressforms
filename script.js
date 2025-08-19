@@ -187,12 +187,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 clearTimeout(debounceTimer);
                 const query = this.value.trim();
                 
-                // Reset selection flag when user types
+                // Reset selection flag when user types - this means manual typing
                 if (fieldType === 'pickup') {
                     pickupValidSelection = false;
                 } else {
                     dropoffValidSelection = false;
                 }
+                
+                // Hide any existing address errors while typing
+                hideAddressError(inputElement);
                 
                 if (query.length < 1) {
                     dropdown.style.display = 'none';
@@ -202,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 debounceTimer = setTimeout(() => {
                     service.getPlacePredictions({
                         input: query,
-                        types: ['address']
+                        types: ['geocode'] // Includes addresses, airports, and establishments
                     }, (predictions, status) => {
                         dropdown.innerHTML = '';
                         
@@ -239,10 +242,21 @@ document.addEventListener('DOMContentLoaded', function() {
                                         item.addEventListener('click', () => {
                                             inputElement.value = place.formatted_address;
                                             dropdown.style.display = 'none';
+                                            
+                                            // Validate that address has house number and street
+                                            const addressValidation = validateAddressComponents(place.address_components);
+                                            
                                             if (fieldType === 'pickup') {
-                                                pickupValidSelection = true;
+                                                pickupValidSelection = addressValidation.isValid;
                                             } else {
-                                                dropoffValidSelection = true;
+                                                dropoffValidSelection = addressValidation.isValid;
+                                            }
+                                            
+                                            // Show validation result
+                                            if (!addressValidation.isValid) {
+                                                showAddressError(inputElement, addressValidation.message);
+                                            } else {
+                                                hideAddressError(inputElement);
                                             }
                                         });
                                         
@@ -292,6 +306,98 @@ document.addEventListener('DOMContentLoaded', function() {
         setupCustomAutocomplete(document.getElementById('drop_input'), 'dropoff');
         
         console.log('Google Places Autocomplete initialized for CF7 form');
+    }
+
+    // Address validation functions
+    function validateAddressComponents(addressComponents) {
+        if (!addressComponents || addressComponents.length === 0) {
+            return {
+                isValid: false,
+                message: 'Please select a valid address from the dropdown.'
+            };
+        }
+
+        let hasStreetNumber = false;
+        let hasRoute = false;
+        let isAirport = false;
+        let isEstablishment = false;
+        
+        // Check for required components and special cases
+        addressComponents.forEach(component => {
+            const types = component.types;
+            if (types.includes('street_number')) {
+                hasStreetNumber = true;
+            }
+            if (types.includes('route')) {
+                hasRoute = true;
+            }
+            if (types.includes('airport')) {
+                isAirport = true;
+            }
+            if (types.includes('establishment')) {
+                isEstablishment = true;
+            }
+        });
+
+        // Airports and establishments are always valid
+        if (isAirport || isEstablishment) {
+            return {
+                isValid: true,
+                message: ''
+            };
+        }
+
+        // For regular addresses, require street number and route
+        if (!hasStreetNumber && !hasRoute) {
+            return {
+                isValid: false,
+                message: 'Address must include both house number and street name.'
+            };
+        } else if (!hasStreetNumber) {
+            return {
+                isValid: false,
+                message: 'Address must include a house number.'
+            };
+        } else if (!hasRoute) {
+            return {
+                isValid: false,
+                message: 'Address must include a street name.'
+            };
+        }
+
+        return {
+            isValid: true,
+            message: ''
+        };
+    }
+
+    function showAddressError(inputElement, message) {
+        // Remove any existing error
+        hideAddressError(inputElement);
+        
+        // Add error styling
+        inputElement.classList.add('field-required-highlight');
+        inputElement.classList.remove('field-valid');
+        
+        // Create and show error message
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'field-error-message address-error-message';
+        errorDiv.style.display = 'block';
+        errorDiv.textContent = message;
+        
+        inputElement.parentNode.appendChild(errorDiv);
+    }
+
+    function hideAddressError(inputElement) {
+        // Remove error styling
+        inputElement.classList.remove('field-required-highlight');
+        inputElement.classList.add('field-valid');
+        
+        // Remove error message
+        const errorMessage = inputElement.parentNode.querySelector('.address-error-message');
+        if (errorMessage) {
+            errorMessage.remove();
+        }
     }
 
     // Vehicle selection with CF7-compatible selectors
@@ -458,6 +564,25 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Date picker initialized for CF7 form');
     }
 
+    // Validate that address was selected from dropdown (not manually typed)
+    function validateManualAddress(inputElement, fieldName) {
+        const address = inputElement.value.trim();
+        
+        if (!address) return; // Empty is handled by required field validation
+        
+        // Check if this was a valid selection from dropdown
+        if ((fieldName === 'address' && pickupValidSelection) || 
+            (fieldName === 'destination' && dropoffValidSelection)) {
+            hideAddressError(inputElement); // Valid selection
+            return;
+        }
+        
+        // If there's text but it wasn't selected from dropdown, show error
+        if (address) {
+            showAddressError(inputElement, 'Please select an address from the dropdown suggestions.');
+        }
+    }
+
     // Form validation for CF7 forms
     function initializeValidation() {
         // Wait for jQuery if using CF7
@@ -506,6 +631,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Event listeners for CF7 form elements
                 $('.wpcf7-form input, .wpcf7-form select, .wpcf7-form textarea').on('blur', function() {
                     validateRequiredField($(this));
+                    
+                    // Additional validation for address fields
+                    const fieldName = $(this).attr('name');
+                    if (fieldName === 'address' || fieldName === 'destination') {
+                        validateManualAddress(this, fieldName);
+                    }
                 });
                 
                 $('.wpcf7-form input, .wpcf7-form select, .wpcf7-form textarea').on('focus', function() {
