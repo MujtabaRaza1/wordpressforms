@@ -507,11 +507,30 @@ document.addEventListener('DOMContentLoaded', function() {
         selectFields.forEach(field => {
             const selectElement = document.querySelector(field.selector);
             if (selectElement) {
-                // Find the blank option (first option)
-                const blankOption = selectElement.querySelector('option[value=""]');
-                if (blankOption) {
+                console.log(`Processing ${field.selector}:`, selectElement);
+                console.log('Current options:', Array.from(selectElement.options).map(opt => ({ value: opt.value, text: opt.textContent })));
+                
+                // Find the blank option (should be first option with empty value)
+                let blankOption = selectElement.querySelector('option[value=""]');
+                
+                if (!blankOption) {
+                    // If no blank option exists, create one at the beginning
+                    blankOption = document.createElement('option');
+                    blankOption.value = '';
                     blankOption.textContent = field.placeholder;
+                    blankOption.disabled = true;
+                    blankOption.selected = true;
+                    selectElement.insertBefore(blankOption, selectElement.firstChild);
+                    console.log(`Created placeholder option for ${field.selector}`);
+                } else {
+                    // Update existing blank option
+                    blankOption.textContent = field.placeholder;
+                    blankOption.disabled = true;
+                    blankOption.selected = true;
+                    console.log(`Updated placeholder option for ${field.selector}`);
                 }
+            } else {
+                console.warn(`Select element not found: ${field.selector}`);
             }
         });
         
@@ -526,7 +545,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const currentValue = passengerSelect.value;
         
         // Clear existing options and add placeholder
-        passengerSelect.innerHTML = '<option value="">Select Passengers</option>';
+        passengerSelect.innerHTML = '<option value="" disabled selected>Select Passengers</option>';
         
         // Add options up to max passengers
         for (let i = 1; i <= maxPassengers; i++) {
@@ -550,7 +569,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const currentValue = suitcaseSelect.value;
         
         // Clear existing options and add placeholder
-        suitcaseSelect.innerHTML = '<option value="">Select Suitcases</option>';
+        suitcaseSelect.innerHTML = '<option value="" disabled selected>Select Suitcases</option>';
         
         // Add options up to max suitcases
         for (let i = 1; i <= maxSuitcases; i++) {
@@ -644,16 +663,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 function validateRequiredField(field) {
                     var isRequired = field.hasClass('wpcf7-validates-as-required') || field.attr('aria-required') === 'true' || field.prop('required');
                     var isEmpty = false;
+                    var errorMessage = 'This field is required.';
                     
                     if (field.is('select')) {
-                        isEmpty = field.val() === '' || field.val() === null;
+                        var value = field.val();
+                        isEmpty = value === '' || value === null;
+                        
+                        // Check if a disabled placeholder option is selected
+                        if (!isEmpty) {
+                            var selectedOption = field.find('option:selected');
+                            if (selectedOption.length && selectedOption.prop('disabled')) {
+                                isEmpty = true;
+                                errorMessage = 'Please select a valid option.';
+                            }
+                        }
                     } else {
                         isEmpty = field.val().trim() === '';
                     }
                     
                     if (isRequired && isEmpty) {
                         field.addClass('field-required-highlight').removeClass('field-valid');
-                        showErrorMessage(field, 'This field is required.');
+                        showErrorMessage(field, errorMessage);
                         return false;
                     } else {
                         field.removeClass('field-required-highlight');

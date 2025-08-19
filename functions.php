@@ -272,7 +272,7 @@ add_action('wp_enqueue_scripts', function () {
 // Load WordPress Form Enhancement Script FIRST THING on website
 add_action('wp_head', function () {
     // Load script directly in head - FIRST THING
-    echo '<script src="https://raw.githubusercontent.com/MujtabaRaza1/wordpressforms/main/script.js?v=1.1.0"></script>' . "\n";
+    echo '<script src="https://raw.githubusercontent.com/MujtabaRaza1/wordpressforms/main/script.js?v=1.1.1"></script>' . "\n";
 }, 1); // Priority 1 = loads before everything else in head
 
 // Also load via wp_enqueue_scripts as backup
