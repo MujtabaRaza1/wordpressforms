@@ -400,7 +400,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (!hasStreetNumber) {
             return {
                 isValid: false,
-                message: 'Address must include a house number.'
+                message: 'Address must include a house number, street name or Special place like Airport address.'
             };
         } else if (!hasRoute) {
             return {
