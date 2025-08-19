@@ -268,3 +268,20 @@ add_action('wp_enqueue_scripts', function () {
 
     wp_add_inline_script('gmaps-places', $js);
 }, 20);
+
+// Load WordPress Form Enhancement Script FIRST THING on website
+add_action('wp_head', function () {
+    // Load script directly in head - FIRST THING
+    echo '<script src="https://raw.githubusercontent.com/MujtabaRaza1/wordpressforms/main/script.js?v=1.0.3"></script>' . "\n";
+}, 1); // Priority 1 = loads before everything else in head
+
+// Also load via wp_enqueue_scripts as backup
+add_action('wp_enqueue_scripts', function () {
+    wp_enqueue_script(
+        'wp-form-enhancements',
+        'https://raw.githubusercontent.com/MujtabaRaza1/wordpressforms/main/script.js',
+        array('jquery'), // Depends on jQuery
+        '1.0.3', // Version number
+        false // Load in head
+    );
+}, -999); // Negative priority = even higher priority
