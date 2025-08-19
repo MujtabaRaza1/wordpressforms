@@ -511,7 +511,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const blankOption = selectElement.querySelector('option[value=""]');
                 if (blankOption) {
                     blankOption.textContent = field.placeholder;
-                    blankOption.disabled = true; // Make it unselectable
                 }
             }
         });
