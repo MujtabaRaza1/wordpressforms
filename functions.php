@@ -214,18 +214,24 @@ require_once ASTRA_THEME_DIR . 'inc/core/deprecated/deprecated-functions.php';
 
 
 
-// Load Google Maps Places API and initialize Autocomplete on CF7 fields.
-add_action('wp_enqueue_scripts', function () {
-    // Optional: only load on specific page(s). Replace 123 with your page ID or 'get-a-quote' slug.
-    // if (!is_page(123) && !is_page('get-a-quote')) return;
+// Load Google Maps Places API EARLY - before our script
+add_action('wp_head', function () {
+    // Load Google Maps API directly in head with high priority
+    echo '<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJMd8MkeyOOsxRg2zpuNqFRtYmDLQPV8w&libraries=places" async defer></script>' . "\n";
+}, -1000); // Even higher priority than our script
 
-    wp_enqueue_script(
-        'gmaps-places',
-        'https://maps.googleapis.com/maps/api/js?key=AIzaSyDJMd8MkeyOOsxRg2zpuNqFRtYmDLQPV8w&libraries=places',
-        [],
-        null,
-        true
-    );
+// Legacy Google Maps loading for backup
+add_action('wp_enqueue_scripts', function () {
+    // Only load if not already loaded in head
+    if (!wp_script_is('gmaps-places', 'enqueued')) {
+        wp_enqueue_script(
+            'gmaps-places',
+            'https://maps.googleapis.com/maps/api/js?key=AIzaSyDJMd8MkeyOOsxRg2zpuNqFRtYmDLQPV8w&libraries=places',
+            [],
+            null,
+            false // Load in head now
+        );
+    }
 
     // Inline JS (multiline string) to init Places Autocomplete.
     $js  = "(function(){\n";
@@ -269,11 +275,30 @@ add_action('wp_enqueue_scripts', function () {
     wp_add_inline_script('gmaps-places', $js);
 }, 20);
 
-// Load WordPress Form Enhancement Script FIRST THING on website
+// Load WordPress Form Enhancement Script IMMEDIATELY - earliest possible
+add_action('get_header', function () {
+    // Start output buffering to inject script at the very beginning of head
+    ob_start();
+}, 1);
+
 add_action('wp_head', function () {
-    // Load script directly in head - FIRST THING
-    echo '<script src="https://raw.githubusercontent.com/MujtabaRaza1/wordpressforms/main/script.js?v=1.1.2"></script>' . "\n";
-}, 1); // Priority 1 = loads before everything else in head
+    // Get any existing head content
+    $existing_content = ob_get_clean();
+    
+    // Output our script first, then existing content
+    echo '<script src="https://raw.githubusercontent.com/MujtabaRaza1/wordpressforms/main/script.js?v=1.1.4"></script>' . "\n";
+    echo $existing_content;
+    
+    // Restart buffering for any remaining head content
+    ob_start();
+}, -999); // Extremely high priority (negative = runs first)
+
+add_action('wp_footer', function () {
+    // Clean up any remaining buffer
+    if (ob_get_level()) {
+        ob_end_flush();
+    }
+}, 999);
 
 // Also load via wp_enqueue_scripts as backup
 add_action('wp_enqueue_scripts', function () {
@@ -281,7 +306,7 @@ add_action('wp_enqueue_scripts', function () {
         'wp-form-enhancements',
         'https://raw.githubusercontent.com/MujtabaRaza1/wordpressforms/main/script.js',
         array('jquery'), // Depends on jQuery
-        '1.1.2', // Version number
+        '1.1.4', // Version number
         false // Load in head
     );
 }, -999); // Negative priority = even higher priority

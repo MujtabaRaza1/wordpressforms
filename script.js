@@ -16,8 +16,20 @@
     }
 })();
 
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM Content Loaded - Form Enhancement Script Starting...');
+// Run immediately when script loads, not waiting for DOM
+(function() {
+    console.log('Form Enhancement Script Loaded - Running immediately...');
+    
+    // If DOM is already ready, run now
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeScript);
+    } else {
+        // DOM is already loaded, run immediately
+        initializeScript();
+    }
+    
+    function initializeScript() {
+        console.log('Initializing Form Enhancement Script...');
     // Vehicle data with images, passengers, and suitcases
     const vehicleData = {
         'Luxury Sedan (3 passengers)': {  // Updated to match CF7 option values
@@ -184,10 +196,34 @@ document.addEventListener('DOMContentLoaded', function() {
     let dropoffValidSelection = false;
     
     function initializeGooglePlaces() {
-        if (typeof google === 'undefined' || !google.maps || !google.maps.places) {
-            console.warn('Google Places API not available');
-            return;
+        // Wait for Google Places API to be available
+        function waitForGoogleAPI(callback, maxAttempts = 50) {
+            let attempts = 0;
+            
+            function checkAPI() {
+                attempts++;
+                
+                if (typeof google !== 'undefined' && google.maps && google.maps.places) {
+                    console.log('Google Places API is ready!');
+                    callback();
+                } else if (attempts < maxAttempts) {
+                    console.log(`Waiting for Google Places API... attempt ${attempts}`);
+                    setTimeout(checkAPI, 100);
+                } else {
+                    console.error('Google Places API failed to load after maximum attempts');
+                }
+            }
+            
+            checkAPI();
         }
+        
+        waitForGoogleAPI(function() {
+            setupGooglePlaces();
+        });
+    }
+    
+    function setupGooglePlaces() {
+        console.log('Setting up Google Places autocomplete...');
 
         const service = new google.maps.places.AutocompleteService();
         const placesService = new google.maps.places.PlacesService(document.createElement('div'));
@@ -768,7 +804,8 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
-});
+    } // End initializeScript function
+})(); // End immediate execution
 
 // Load Air Datepicker if not already loaded
 if (typeof AirDatepicker === 'undefined') {
