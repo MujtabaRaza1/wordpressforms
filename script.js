@@ -398,6 +398,15 @@ document.addEventListener('DOMContentLoaded', function() {
             autoClose: true,
             isMobile: false,
             toggleSelected: false,
+            onSelect: function({date, formattedDate, datepicker}) {
+                // Trigger validation when a date is selected
+                if (typeof jQuery !== 'undefined') {
+                    // Use jQuery to trigger validation immediately after date selection
+                    jQuery(pickupDateInput).removeClass('field-required-highlight').addClass('field-valid');
+                    // Hide any error messages
+                    jQuery(pickupDateInput).siblings('.field-error-message').hide();
+                }
+            },
             locale: {
                 days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
                 daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
