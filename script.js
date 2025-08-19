@@ -401,10 +401,15 @@ document.addEventListener('DOMContentLoaded', function() {
             onSelect: function({date, formattedDate, datepicker}) {
                 // Trigger validation when a date is selected
                 if (typeof jQuery !== 'undefined') {
-                    // Use jQuery to trigger validation immediately after date selection
-                    jQuery(pickupDateInput).removeClass('field-required-highlight').addClass('field-valid');
-                    // Hide any error messages
-                    jQuery(pickupDateInput).siblings('.field-error-message').hide();
+                    const $input = jQuery(pickupDateInput);
+                    // Manually trigger the validation function
+                    $input.removeClass('field-required-highlight').addClass('field-valid');
+                    $input.siblings('.field-error-message').hide();
+                    
+                    // Also trigger a blur event to ensure validation runs
+                    setTimeout(() => {
+                        $input.trigger('blur');
+                    }, 10);
                 }
             },
             locale: {
