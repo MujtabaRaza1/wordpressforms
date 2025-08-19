@@ -194,7 +194,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     dropoffValidSelection = false;
                 }
                 
-                // Hide any existing address errors while typing
+                // Clear any validation styling while typing
+                inputElement.classList.remove('field-required-highlight', 'field-valid');
                 hideAddressError(inputElement);
                 
                 if (query.length < 1) {
@@ -256,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             if (!addressValidation.isValid) {
                                                 showAddressError(inputElement, addressValidation.message);
                                             } else {
-                                                hideAddressError(inputElement);
+                                                showAddressValid(inputElement);
                                             }
                                         });
                                         
@@ -319,28 +320,45 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let hasStreetNumber = false;
         let hasRoute = false;
-        let isAirport = false;
-        let isEstablishment = false;
+        let isSpecialPlace = false;
         
-        // Check for required components and special cases
+        // Debug: Log all component types to console
+        console.log('Address components:', addressComponents.map(c => ({ name: c.long_name, types: c.types })));
+        
+        // Check for all types that should be considered valid
         addressComponents.forEach(component => {
             const types = component.types;
+            
+            // Regular address components
             if (types.includes('street_number')) {
                 hasStreetNumber = true;
             }
             if (types.includes('route')) {
                 hasRoute = true;
             }
-            if (types.includes('airport')) {
-                isAirport = true;
-            }
-            if (types.includes('establishment')) {
-                isEstablishment = true;
+            
+            // Special places that should always be valid
+            if (types.includes('airport') || 
+                types.includes('establishment') || 
+                types.includes('point_of_interest') ||
+                types.includes('transit_station') ||
+                types.includes('bus_station') ||
+                types.includes('train_station') ||
+                types.includes('subway_station') ||
+                types.includes('hospital') ||
+                types.includes('university') ||
+                types.includes('school') ||
+                types.includes('shopping_mall') ||
+                types.includes('park') ||
+                types.includes('tourist_attraction') ||
+                types.includes('lodging')) {
+                isSpecialPlace = true;
             }
         });
 
-        // Airports and establishments are always valid
-        if (isAirport || isEstablishment) {
+        // Special places (airports, hotels, etc.) are always valid
+        if (isSpecialPlace) {
+            console.log('Valid special place detected');
             return {
                 isValid: true,
                 message: ''
@@ -365,6 +383,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         }
 
+        console.log('Valid regular address detected');
         return {
             isValid: true,
             message: ''
@@ -389,15 +408,21 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function hideAddressError(inputElement) {
-        // Remove error styling
+        // Remove error styling and messages
         inputElement.classList.remove('field-required-highlight');
-        inputElement.classList.add('field-valid');
         
         // Remove error message
         const errorMessage = inputElement.parentNode.querySelector('.address-error-message');
         if (errorMessage) {
             errorMessage.remove();
         }
+    }
+    
+    function showAddressValid(inputElement) {
+        // Only add valid styling when explicitly called (after dropdown selection)
+        inputElement.classList.remove('field-required-highlight');
+        inputElement.classList.add('field-valid');
+        hideAddressError(inputElement);
     }
 
     // Vehicle selection with CF7-compatible selectors
