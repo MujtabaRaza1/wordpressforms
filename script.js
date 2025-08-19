@@ -526,7 +526,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const currentValue = passengerSelect.value;
         
         // Clear existing options and add placeholder
-        passengerSelect.innerHTML = '<option value="" disabled>Select Passengers</option>';
+        passengerSelect.innerHTML = '<option value="">Select Passengers</option>';
         
         // Add options up to max passengers
         for (let i = 1; i <= maxPassengers; i++) {
@@ -550,7 +550,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const currentValue = suitcaseSelect.value;
         
         // Clear existing options and add placeholder
-        suitcaseSelect.innerHTML = '<option value="" disabled>Select Suitcases</option>';
+        suitcaseSelect.innerHTML = '<option value="">Select Suitcases</option>';
         
         // Add options up to max suitcases
         for (let i = 1; i <= maxSuitcases; i++) {
