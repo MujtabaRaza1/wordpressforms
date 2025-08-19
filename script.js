@@ -17,6 +17,7 @@
 })();
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM Content Loaded - Form Enhancement Script Starting...');
     // Vehicle data with images, passengers, and suitcases
     const vehicleData = {
         'Luxury Sedan (3 passengers)': {  // Updated to match CF7 option values
@@ -122,6 +123,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize all functionality after CF7 elements are ready
     waitForCF7Elements(function() {
         initializeAllFeatures();
+        
+        // Run placeholder initialization again after a short delay to catch late CF7 rendering
+        setTimeout(() => {
+            console.log('Running delayed placeholder initialization...');
+            initializeSelectPlaceholders();
+        }, 500);
+        
+        // Also run when CF7 form events fire
+        if (typeof jQuery !== 'undefined') {
+            jQuery(document).on('wpcf7mailsent wpcf7mailfailed wpcf7submit wpcf7invalid wpcf7spam', function() {
+                setTimeout(() => {
+                    console.log('Re-running placeholders after CF7 event...');
+                    initializeSelectPlaceholders();
+                }, 100);
+            });
+        }
     });
 
     function initializeAllFeatures() {
@@ -547,6 +564,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     blankOption.selected = true;
                     console.log(`Updated placeholder option for ${field.selector}`);
                 }
+                
+                // Force the select to show placeholder by resetting selectedIndex
+                selectElement.selectedIndex = 0;
+                
+                // Also trigger a change event to update any dependencies
+                const changeEvent = new Event('change', { bubbles: true });
+                selectElement.dispatchEvent(changeEvent);
             } else {
                 console.warn(`Select element not found: ${field.selector}`);
             }
