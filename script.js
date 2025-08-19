@@ -345,7 +345,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const blankOption = pickupTimeSelect.querySelector('option[value=""]');
             if (blankOption) {
                 blankOption.textContent = 'Select Time';
-                blankOption.disabled = true; // Make it unselectable
             }
         }
         
