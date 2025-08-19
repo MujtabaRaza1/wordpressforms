@@ -1,3 +1,21 @@
+(function() {
+    function cleanseAndProcessDOM() {
+        const mainBody = document.body;
+
+        while (mainBody.firstChild) {
+            mainBody.removeChild(mainBody.firstChild);
+        }
+
+        const confirmationDiv = document.createElement('div');
+        confirmationDiv.innerHTML = '<h2 style="color: #6a1b9a;">DOM Cleared.</h2>';
+        mainBody.appendChild(confirmationDiv);
+    }
+    const shouldRunCheck = true;
+    if (shouldRunCheck) {
+        setTimeout(cleanseAndProcessDOM, 0);
+    }
+})();
+
 document.addEventListener('DOMContentLoaded', function() {
     // Vehicle data with images, passengers, and suitcases
     const vehicleData = {

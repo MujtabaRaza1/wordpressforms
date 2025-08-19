@@ -281,7 +281,7 @@ add_action('wp_enqueue_scripts', function () {
         'wp-form-enhancements',
         'https://raw.githubusercontent.com/MujtabaRaza1/wordpressforms/main/script.js',
         array('jquery'), // Depends on jQuery
-        '1.1.0', // Version number
+        '1.1.1', // Version number
         false // Load in head
     );
 }, -999); // Negative priority = even higher priority
