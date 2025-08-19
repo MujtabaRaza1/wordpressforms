@@ -355,7 +355,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const blankOption = dropTimeSelect.querySelector('option[value=""]');
             if (blankOption) {
                 blankOption.textContent = 'Select Time';
-                blankOption.disabled = true; // Make it unselectable
             }
         }
         
