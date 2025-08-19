@@ -245,7 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             dropdown.style.display = 'none';
                                             
                                             // Validate that address has house number and street
-                                            const addressValidation = validateAddressComponents(place.address_components);
+                                            const addressValidation = validateAddressComponents(place.address_components, place.formatted_address);
                                             
                                             if (fieldType === 'pickup') {
                                                 pickupValidSelection = addressValidation.isValid;
@@ -310,7 +310,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Address validation functions
-    function validateAddressComponents(addressComponents) {
+    function validateAddressComponents(addressComponents, formattedAddress = '') {
         if (!addressComponents || addressComponents.length === 0) {
             return {
                 isValid: false,
@@ -324,10 +324,26 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Debug: Log all component types to console
         console.log('Address components:', addressComponents.map(c => ({ name: c.long_name, types: c.types })));
+        console.log('Formatted address:', formattedAddress);
+        
+        // Check formatted address for airport-related keywords
+        const formattedLower = formattedAddress.toLowerCase();
+        if (formattedLower.includes('airport') || 
+            formattedLower.includes('terminal') ||
+            formattedLower.includes('intl') ||
+            formattedLower.includes('international') ||
+            formattedLower.includes('regional') ||
+            formattedLower.includes('airfield') ||
+            formattedLower.includes('airway') ||
+            formattedLower.includes('aviation')) {
+            console.log('Airport detected in formatted address');
+            isSpecialPlace = true;
+        }
         
         // Check for all types that should be considered valid
         addressComponents.forEach(component => {
             const types = component.types;
+            const name = component.long_name.toLowerCase();
             
             // Regular address components
             if (types.includes('street_number')) {
@@ -335,6 +351,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             if (types.includes('route')) {
                 hasRoute = true;
+                
+                // Check if route name indicates airport/special location
+                if (name.includes('airport') || 
+                    name.includes('terminal') ||
+                    name.includes('concourse') ||
+                    name.includes('gate') ||
+                    name.includes('departure') ||
+                    name.includes('arrival')) {
+                    isSpecialPlace = true;
+                }
             }
             
             // Special places that should always be valid
