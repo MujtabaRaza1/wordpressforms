@@ -111,6 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeGooglePlaces();
         initializeVehicleSelection();
         initializeDatePicker();
+        initializeTimeSelects();
         initializeValidation();
     }
 
@@ -331,6 +332,34 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         console.log('Vehicle selection system initialized for CF7 form');
+    }
+
+    // Initialize time select placeholders
+    function initializeTimeSelects() {
+        const pickupTimeSelect = document.querySelector('select[name="pickup-time"]');
+        const dropTimeSelect = document.querySelector('select[name="drop-time"]');
+        
+        // Set placeholder for pickup time
+        if (pickupTimeSelect) {
+            // Find the blank option (first option)
+            const blankOption = pickupTimeSelect.querySelector('option[value=""]');
+            if (blankOption) {
+                blankOption.textContent = 'Select Time';
+                blankOption.disabled = true; // Make it unselectable
+            }
+        }
+        
+        // Set placeholder for drop-off time
+        if (dropTimeSelect) {
+            // Find the blank option (first option)
+            const blankOption = dropTimeSelect.querySelector('option[value=""]');
+            if (blankOption) {
+                blankOption.textContent = 'Select Time';
+                blankOption.disabled = true; // Make it unselectable
+            }
+        }
+        
+        console.log('Time select placeholders initialized for CF7 form');
     }
 
     // Update passenger options with CF7-compatible selector
