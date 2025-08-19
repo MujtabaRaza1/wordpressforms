@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeGooglePlaces();
         initializeVehicleSelection();
         initializeDatePicker();
-        initializeTimeSelects();
+        initializeSelectPlaceholders();
         initializeValidation();
     }
 
@@ -491,30 +491,32 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Vehicle selection system initialized for CF7 form');
     }
 
-    // Initialize time select placeholders
-    function initializeTimeSelects() {
-        const pickupTimeSelect = document.querySelector('select[name="pickup-time"]');
-        const dropTimeSelect = document.querySelector('select[name="drop-time"]');
+    // Initialize select field placeholders
+    function initializeSelectPlaceholders() {
+        // Define all select fields and their placeholder texts
+        const selectFields = [
+            { selector: 'select[name="pickup-time"]', placeholder: 'Select Time' },
+            { selector: 'select[name="drop-time"]', placeholder: 'Select Time' },
+            { selector: 'select[name="type-of-service"]', placeholder: 'Select Service' },
+            { selector: 'select[name="type-of-vehicle"]', placeholder: 'Select Vehicle' },
+            { selector: 'select[name="number-of-passengers"]', placeholder: 'Select Passengers' },
+            { selector: 'select[name="number-of-suitcases"]', placeholder: 'Select Suitcases' }
+        ];
         
-        // Set placeholder for pickup time
-        if (pickupTimeSelect) {
-            // Find the blank option (first option)
-            const blankOption = pickupTimeSelect.querySelector('option[value=""]');
-            if (blankOption) {
-                blankOption.textContent = 'Select Time';
+        // Set placeholders for all select fields
+        selectFields.forEach(field => {
+            const selectElement = document.querySelector(field.selector);
+            if (selectElement) {
+                // Find the blank option (first option)
+                const blankOption = selectElement.querySelector('option[value=""]');
+                if (blankOption) {
+                    blankOption.textContent = field.placeholder;
+                    blankOption.disabled = true; // Make it unselectable
+                }
             }
-        }
+        });
         
-        // Set placeholder for drop-off time
-        if (dropTimeSelect) {
-            // Find the blank option (first option)
-            const blankOption = dropTimeSelect.querySelector('option[value=""]');
-            if (blankOption) {
-                blankOption.textContent = 'Select Time';
-            }
-        }
-        
-        console.log('Time select placeholders initialized for CF7 form');
+        console.log('Select field placeholders initialized for CF7 form');
     }
 
     // Update passenger options with CF7-compatible selector
@@ -524,8 +526,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const currentValue = passengerSelect.value;
         
-        // Clear existing options except first
-        passengerSelect.innerHTML = '<option value="">Select Passengers</option>';
+        // Clear existing options and add placeholder
+        passengerSelect.innerHTML = '<option value="" disabled>Select Passengers</option>';
         
         // Add options up to max passengers
         for (let i = 1; i <= maxPassengers; i++) {
@@ -548,8 +550,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const currentValue = suitcaseSelect.value;
         
-        // Clear existing options except first
-        suitcaseSelect.innerHTML = '<option value="">Select Suitcases</option>';
+        // Clear existing options and add placeholder
+        suitcaseSelect.innerHTML = '<option value="" disabled>Select Suitcases</option>';
         
         // Add options up to max suitcases
         for (let i = 1; i <= maxSuitcases; i++) {
