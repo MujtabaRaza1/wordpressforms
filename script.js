@@ -553,15 +553,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     blankOption = document.createElement('option');
                     blankOption.value = '';
                     blankOption.textContent = field.placeholder;
-                    blankOption.disabled = true;
-                    blankOption.selected = true;
                     selectElement.insertBefore(blankOption, selectElement.firstChild);
                     console.log(`Created placeholder option for ${field.selector}`);
                 } else {
                     // Update existing blank option
                     blankOption.textContent = field.placeholder;
-                    blankOption.disabled = true;
-                    blankOption.selected = true;
                     console.log(`Updated placeholder option for ${field.selector}`);
                 }
                 
@@ -587,7 +583,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const currentValue = passengerSelect.value;
         
         // Clear existing options and add placeholder
-        passengerSelect.innerHTML = '<option value="" disabled selected>Select Passengers</option>';
+        passengerSelect.innerHTML = '<option value="" selected>Select Passengers</option>';
         
         // Add options up to max passengers
         for (let i = 1; i <= maxPassengers; i++) {
@@ -611,7 +607,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const currentValue = suitcaseSelect.value;
         
         // Clear existing options and add placeholder
-        suitcaseSelect.innerHTML = '<option value="" disabled selected>Select Suitcases</option>';
+        suitcaseSelect.innerHTML = '<option value="" selected>Select Suitcases</option>';
         
         // Add options up to max suitcases
         for (let i = 1; i <= maxSuitcases; i++) {
