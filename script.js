@@ -414,9 +414,24 @@
             });
         }
         
-        // Setup autocomplete for address fields (IDs preserved)
-        setupCustomAutocomplete(document.getElementById('search_input'), 'pickup');
-        setupCustomAutocomplete(document.getElementById('drop_input'), 'dropoff');
+        // Setup autocomplete for address fields - find ALL forms
+        const pickupInputs = document.querySelectorAll('#search_input, input[name="address"], [id*="search_input"], [id*="pickup"]');
+        const dropoffInputs = document.querySelectorAll('#drop_input, input[name="destination"], [id*="drop_input"], [id*="dropoff"]');
+        
+        console.log('Found', pickupInputs.length, 'pickup address inputs');
+        console.log('Found', dropoffInputs.length, 'dropoff address inputs');
+        
+        pickupInputs.forEach(function(input) {
+            if (input) {
+                setupCustomAutocomplete(input, 'pickup');
+            }
+        });
+        
+        dropoffInputs.forEach(function(input) {
+            if (input) {
+                setupCustomAutocomplete(input, 'dropoff');
+            }
+        });
         
         console.log('Google Places Autocomplete initialized for CF7 form');
     }
@@ -565,39 +580,66 @@
 
     // Vehicle selection with CF7-compatible selectors
     function initializeVehicleSelection() {
-        // Use CF7-generated select element
-        const vehicleSelect = document.querySelector('select[name="type-of-vehicle"]');
+        // Use CF7-generated select elements - find ALL forms
+        const vehicleSelects = document.querySelectorAll('select[name="type-of-vehicle"]');
         
-        if (!vehicleSelect) {
-            console.warn('Vehicle select element not found');
+        if (vehicleSelects.length === 0) {
+            console.warn('No vehicle select elements found');
             return;
         }
 
-        vehicleSelect.addEventListener('change', function() {
-            const selectedVehicle = this.value;
-            const vehicleImageDiv = document.getElementById('vehicleImage');
-            const vehicleImg = document.getElementById('vehicleImg');
-            const vehiclePassengers = document.getElementById('vehiclePassengers');
+        console.log('Found', vehicleSelects.length, 'vehicle select elements');
+
+        vehicleSelects.forEach(function(vehicleSelect, index) {
+            // Remove existing listeners to prevent duplicates
+            vehicleSelect.removeEventListener('change', vehicleSelect._changeHandler);
             
-            if (selectedVehicle && vehicleData[selectedVehicle]) {
-                const vehicle = vehicleData[selectedVehicle];
+            // Create a change handler for this specific select
+            vehicleSelect._changeHandler = function() {
+                const selectedVehicle = this.value;
                 
-                // Show vehicle image and details
-                if (vehicleImg) vehicleImg.src = vehicle.image;
-                if (vehiclePassengers) vehiclePassengers.textContent = vehicle.passengers;
+                // Find the vehicle image elements within the same form/container
+                const formContainer = this.closest('form') || this.closest('.wpcf7') || this.closest('.elementor-tab-content');
+                let vehicleImageDiv, vehicleImg, vehiclePassengers;
+                
+                if (formContainer) {
+                    vehicleImageDiv = formContainer.querySelector('#vehicleImage, .vehicleImage, [id*="vehicleImage"]');
+                    vehicleImg = formContainer.querySelector('#vehicleImg, .vehicleImg, [id*="vehicleImg"]');
+                    vehiclePassengers = formContainer.querySelector('#vehiclePassengers, .vehiclePassengers, [id*="vehiclePassengers"]');
+                } else {
+                    // Fallback to document-wide search with index
+                    const allVehicleImageDivs = document.querySelectorAll('#vehicleImage, .vehicleImage, [id*="vehicleImage"]');
+                    const allVehicleImgs = document.querySelectorAll('#vehicleImg, .vehicleImg, [id*="vehicleImg"]');
+                    const allVehiclePassengers = document.querySelectorAll('#vehiclePassengers, .vehiclePassengers, [id*="vehiclePassengers"]');
+                    
+                    vehicleImageDiv = allVehicleImageDivs[index];
+                    vehicleImg = allVehicleImgs[index];
+                    vehiclePassengers = allVehiclePassengers[index];
+                }
+                
+                if (selectedVehicle && vehicleData[selectedVehicle]) {
+                    const vehicle = vehicleData[selectedVehicle];
+                    
+                    // Show vehicle image and details
+                    if (vehicleImg) vehicleImg.src = vehicle.image;
+                    if (vehiclePassengers) vehiclePassengers.textContent = vehicle.passengers;
                 if (vehicleImageDiv) vehicleImageDiv.style.display = 'block';
                 
-                // Update passenger and suitcase dropdowns
-                updatePassengerOptions(vehicle.passengers);
-                updateSuitcaseOptions(vehicle.suitcases);
-            } else {
-                // Hide vehicle display
-                if (vehicleImageDiv) vehicleImageDiv.style.display = 'none';
-                
-                // Reset dropdowns to full range
-                updatePassengerOptions(55);
-                updateSuitcaseOptions(100);
-            }
+                // Update passenger and suitcase dropdowns for this specific form
+                updatePassengerOptions(vehicle.passengers, formContainer);
+                updateSuitcaseOptions(vehicle.suitcases, formContainer);
+                } else {
+                    // Hide vehicle display
+                    if (vehicleImageDiv) vehicleImageDiv.style.display = 'none';
+                    
+                    // Reset dropdowns to full range for this specific form
+                    updatePassengerOptions(55, formContainer);
+                    updateSuitcaseOptions(100, formContainer);
+                }
+            };
+            
+            // Add the event listener
+            vehicleSelect.addEventListener('change', vehicleSelect._changeHandler);
         });
 
         console.log('Vehicle selection system initialized for CF7 form');
@@ -653,9 +695,26 @@
     }
 
     // Update passenger options with CF7-compatible selector
-    function updatePassengerOptions(maxPassengers) {
-        const passengerSelect = document.querySelector('select[name="number-of-passengers"]');
+    function updatePassengerOptions(maxPassengers, formContainer = null) {
+        let passengerSelect;
+        
+        if (formContainer) {
+            passengerSelect = formContainer.querySelector('select[name="number-of-passengers"]');
+        } else {
+            // Fallback to all passenger selects
+            const passengerSelects = document.querySelectorAll('select[name="number-of-passengers"]');
+            if (passengerSelects.length > 0) {
+                // Update all passenger selects if no specific container
+                passengerSelects.forEach(select => updateSinglePassengerSelect(select, maxPassengers));
+                return;
+            }
+        }
+        
         if (!passengerSelect) return;
+        updateSinglePassengerSelect(passengerSelect, maxPassengers);
+    }
+    
+    function updateSinglePassengerSelect(passengerSelect, maxPassengers) {
         
         const currentValue = passengerSelect.value;
         
@@ -677,9 +736,26 @@
     }
 
     // Update suitcase options with CF7-compatible selector
-    function updateSuitcaseOptions(maxSuitcases) {
-        const suitcaseSelect = document.querySelector('select[name="number-of-suitcases"]');
+    function updateSuitcaseOptions(maxSuitcases, formContainer = null) {
+        let suitcaseSelect;
+        
+        if (formContainer) {
+            suitcaseSelect = formContainer.querySelector('select[name="number-of-suitcases"]');
+        } else {
+            // Fallback to all suitcase selects
+            const suitcaseSelects = document.querySelectorAll('select[name="number-of-suitcases"]');
+            if (suitcaseSelects.length > 0) {
+                // Update all suitcase selects if no specific container
+                suitcaseSelects.forEach(select => updateSingleSuitcaseSelect(select, maxSuitcases));
+                return;
+            }
+        }
+        
         if (!suitcaseSelect) return;
+        updateSingleSuitcaseSelect(suitcaseSelect, maxSuitcases);
+    }
+    
+    function updateSingleSuitcaseSelect(suitcaseSelect, maxSuitcases) {
         
         const currentValue = suitcaseSelect.value;
         
@@ -702,16 +778,23 @@
 
     // Date picker initialization with CF7-compatible selector
     function initializeDatePicker() {
-        const pickupDateInput = document.querySelector('input[name="pickup-date"]');
+        const pickupDateInputs = document.querySelectorAll('input[name="pickup-date"]');
         
-        if (!pickupDateInput || typeof AirDatepicker === 'undefined') {
+        if (pickupDateInputs.length === 0 || typeof AirDatepicker === 'undefined') {
             console.warn('Date picker elements or AirDatepicker not available');
             return;
         }
 
+        console.log('Found', pickupDateInputs.length, 'pickup date inputs');
         const today = new Date();
         
-        new AirDatepicker(pickupDateInput, {
+        pickupDateInputs.forEach(function(pickupDateInput) {
+            // Skip if already initialized
+            if (pickupDateInput._airDatepicker) {
+                return;
+            }
+            
+            new AirDatepicker(pickupDateInput, {
             minDate: today,
             dateFormat: 'yyyy-MM-dd',
             autoClose: true,
@@ -745,6 +828,7 @@
                 timeFormat: 'HH:mm',
                 firstDay: 0
             }
+            });
         });
 
         console.log('Date picker initialized for CF7 form');
