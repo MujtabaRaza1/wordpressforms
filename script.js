@@ -22,10 +22,51 @@
     
     // If DOM is already ready, run now
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initializeScript);
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeScript();
+            initializeTabListeners();
+        });
     } else {
         // DOM is already loaded, run immediately
         initializeScript();
+        initializeTabListeners();
+    }
+    
+    // Function to initialize tab listeners for Elementor tabs
+    function initializeTabListeners() {
+        console.log('Initializing tab listeners...');
+        
+        // Wait a bit for Elementor to be ready
+        setTimeout(function() {
+            // Select all Elementor tab titles
+            const tabTitles = document.querySelectorAll('.elementor-tab-title');
+            
+            if (tabTitles.length > 0) {
+                console.log('Found', tabTitles.length, 'Elementor tabs');
+                
+                tabTitles.forEach(function(tab) {
+                    // Remove existing listeners to prevent duplicates
+                    tab.removeEventListener('click', handleTabClick);
+                    // Add click listener
+                    tab.addEventListener('click', handleTabClick);
+                });
+            } else {
+                console.log('No Elementor tabs found, retrying in 1 second...');
+                // Retry after 1 second if tabs not found
+                setTimeout(initializeTabListeners, 1000);
+            }
+        }, 500);
+    }
+    
+    // Function to handle tab clicks
+    function handleTabClick(event) {
+        console.log('Tab clicked:', event.target.textContent.trim());
+        
+        // Wait for the tab content to be visible
+        setTimeout(function() {
+            console.log('Re-initializing script for new tab...');
+            initializeScript();
+        }, 300);
     }
     
     function initializeScript() {
