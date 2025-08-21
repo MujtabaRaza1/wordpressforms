@@ -72,17 +72,17 @@
             suitcases: 8,
             image: 'https://www.royalcarriages.com/wp-content/uploads/2025/08/stretch-escalade-limousine-8.jpeg'
         },
-        'Limo Bus 20 passengers (20 passengers)': {
+        'Limo Bus (20 passengers)': {
             passengers: 20,
             suitcases: 10,
             image: 'https://www.royalcarriages.com/wp-content/uploads/2025/08/20-passenger-limo-bus-11.jpg'
         },
-        'Shuttle Bus 30 Passengers (25 passengers)': {
+        'Mini Bus (25 passengers)': {
             passengers: 25,
             suitcases: 15,
             image: 'https://www.royalcarriages.com/wp-content/uploads/2025/08/shuttle-buses-12.jpg'
         },
-        'Limo Bus 30 Passengers (30 passengers)': {
+        'Limo Bus (30 passengers)': {
             passengers: 30,
             suitcases: 20,
             image: 'https://www.royalcarriages.com/wp-content/uploads/2025/08/30-Pass-Limo-Bus.png'
