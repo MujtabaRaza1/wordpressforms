@@ -657,35 +657,40 @@
             { selector: 'select[name="number-of-suitcases"]', placeholder: 'Select Suitcases' }
         ];
         
-        // Set placeholders for all select fields
+        // Set placeholders for all select fields - find ALL forms
         selectFields.forEach(field => {
-            const selectElement = document.querySelector(field.selector);
-            if (selectElement) {
-                console.log(`Processing ${field.selector}:`, selectElement);
-                console.log('Current options:', Array.from(selectElement.options).map(opt => ({ value: opt.value, text: opt.textContent })));
+            const selectElements = document.querySelectorAll(field.selector);
+            
+            if (selectElements.length > 0) {
+                console.log(`Found ${selectElements.length} elements for ${field.selector}`);
                 
-                // Find the blank option (should be first option with empty value)
-                let blankOption = selectElement.querySelector('option[value=""]');
-                
-                if (!blankOption) {
-                    // If no blank option exists, create one at the beginning
-                    blankOption = document.createElement('option');
-                    blankOption.value = '';
-                    blankOption.textContent = field.placeholder;
-                    selectElement.insertBefore(blankOption, selectElement.firstChild);
-                    console.log(`Created placeholder option for ${field.selector}`);
-                } else {
-                    // Update existing blank option
-                    blankOption.textContent = field.placeholder;
-                    console.log(`Updated placeholder option for ${field.selector}`);
-                }
-                
-                // Force the select to show placeholder by resetting selectedIndex
-                selectElement.selectedIndex = 0;
-                
-                // Also trigger a change event to update any dependencies
-                const changeEvent = new Event('change', { bubbles: true });
-                selectElement.dispatchEvent(changeEvent);
+                selectElements.forEach((selectElement, index) => {
+                    console.log(`Processing ${field.selector} #${index + 1}:`, selectElement);
+                    console.log('Current options:', Array.from(selectElement.options).map(opt => ({ value: opt.value, text: opt.textContent })));
+                    
+                    // Find the blank option (should be first option with empty value)
+                    let blankOption = selectElement.querySelector('option[value=""]');
+                    
+                    if (!blankOption) {
+                        // If no blank option exists, create one at the beginning
+                        blankOption = document.createElement('option');
+                        blankOption.value = '';
+                        blankOption.textContent = field.placeholder;
+                        selectElement.insertBefore(blankOption, selectElement.firstChild);
+                        console.log(`Created placeholder option for ${field.selector} #${index + 1}`);
+                    } else {
+                        // Update existing blank option
+                        blankOption.textContent = field.placeholder;
+                        console.log(`Updated placeholder option for ${field.selector} #${index + 1}`);
+                    }
+                    
+                    // Force the select to show placeholder by resetting selectedIndex
+                    selectElement.selectedIndex = 0;
+                    
+                    // Also trigger a change event to update any dependencies
+                    const changeEvent = new Event('change', { bubbles: true });
+                    selectElement.dispatchEvent(changeEvent);
+                });
             } else {
                 console.warn(`Select element not found: ${field.selector}`);
             }
