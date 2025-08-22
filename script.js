@@ -414,9 +414,9 @@
             });
         }
         
-        // Setup autocomplete for address fields - find ALL forms
-        const pickupInputs = document.querySelectorAll('#search_input, input[name="address"], [id*="search_input"], [id*="pickup"]');
-        const dropoffInputs = document.querySelectorAll('#drop_input, input[name="destination"], [id*="drop_input"], [id*="dropoff"]');
+        // Setup autocomplete for address fields - find ALL forms including roundtrip
+        const pickupInputs = document.querySelectorAll('#search_input, input[name="address"], [id*="search_input"], [id*="pickup"], #roundtrippick_input, #roundtripreturnpick_input');
+        const dropoffInputs = document.querySelectorAll('#drop_input, input[name="destination"], [id*="drop_input"], [id*="dropoff"], #roundtripdrop_input, #roundtripreturndrop_input');
         
         console.log('Found', pickupInputs.length, 'pickup address inputs');
         console.log('Found', dropoffInputs.length, 'dropoff address inputs');
@@ -783,7 +783,7 @@
 
     // Date picker initialization with CF7-compatible selector
     function initializeDatePicker() {
-        const pickupDateInputs = document.querySelectorAll('input[name="pickup-date"]');
+        const pickupDateInputs = document.querySelectorAll('input[name="pickup-date"], input[name="return-pickup-date"]');
         
         if (pickupDateInputs.length === 0 || typeof AirDatepicker === 'undefined') {
             console.warn('Date picker elements or AirDatepicker not available');
