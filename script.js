@@ -628,6 +628,9 @@
                 // Update passenger and suitcase dropdowns for this specific form
                 updatePassengerOptions(vehicle.passengers, formContainer);
                 updateSuitcaseOptions(vehicle.suitcases, formContainer);
+                
+                // For roundtrip forms, also update return trip fields
+                updateReturnTripFields(vehicle.passengers, vehicle.suitcases, formContainer);
                 } else {
                     // Hide vehicle display
                     if (vehicleImageDiv) vehicleImageDiv.style.display = 'none';
@@ -635,6 +638,9 @@
                     // Reset dropdowns to full range for this specific form
                     updatePassengerOptions(55, formContainer);
                     updateSuitcaseOptions(100, formContainer);
+                    
+                    // For roundtrip forms, also reset return trip fields
+                    updateReturnTripFields(55, 100, formContainer);
                 }
             };
             
@@ -778,6 +784,34 @@
         // Restore previous value if still valid
         if (currentValue && parseInt(currentValue) <= maxSuitcases) {
             suitcaseSelect.value = currentValue;
+        }
+    }
+
+    // Update return trip fields for roundtrip forms
+    function updateReturnTripFields(maxPassengers, maxSuitcases, formContainer = null) {
+        let returnPassengerSelect, returnSuitcaseSelect;
+        
+        if (formContainer) {
+            returnPassengerSelect = formContainer.querySelector('select[name="return-number-of-passengers"]');
+            returnSuitcaseSelect = formContainer.querySelector('select[name="return-number-of-suitcases"]');
+        } else {
+            // Fallback to all return trip selects
+            const returnPassengerSelects = document.querySelectorAll('select[name="return-number-of-passengers"]');
+            const returnSuitcaseSelects = document.querySelectorAll('select[name="return-number-of-suitcases"]');
+            
+            returnPassengerSelects.forEach(select => updateSinglePassengerSelect(select, maxPassengers));
+            returnSuitcaseSelects.forEach(select => updateSingleSuitcaseSelect(select, maxSuitcases));
+            return;
+        }
+        
+        // Update return trip passenger select if found
+        if (returnPassengerSelect) {
+            updateSinglePassengerSelect(returnPassengerSelect, maxPassengers);
+        }
+        
+        // Update return trip suitcase select if found
+        if (returnSuitcaseSelect) {
+            updateSingleSuitcaseSelect(returnSuitcaseSelect, maxSuitcases);
         }
     }
 

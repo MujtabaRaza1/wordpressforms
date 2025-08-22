@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordPress Form Preview - One Way</title>
+    <script src="https://raw.githubusercontent.com/MujtabaRaza1/wordpressforms/main/script.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Air Datepicker CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/air-datepicker@3.5.3/air-datepicker.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJMd8MkeyOOsxRg2zpuNqFRtYmDLQPV8w&libraries=places"></script>  
+
+</head>
+<body>
+    <div class="get-a-code990">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <p class="please-provide88">
+                        PLEASE PROVIDE YOUR BOOKING DETAILS BELOW:
+                    </p>
+                </div>
+            </div>
+
+            <div class="row markedfields77">
+                <div class="col-sm-12">
+                    <p class="markedrequird">
+                        Fields marked with * are required.
+                    </p>
+                </div>
+            </div>  
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group-lg">
+                            <label id="item4_label_0" style="display: inline;">First Name *</label>
+                            [text* first-name class:form-control class:wpcf7-validates-as-required]
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group-lg">
+                            <label id="item25_label_0" style="display: inline;">Last Name *</label>
+                            [text* last-name class:form-control class:wpcf7-validates-as-required]
+                        </div>
+                    </div>
+                </div>  
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group-lg">
+                            <label id="item25_label_0" style="display: inline;">Email *</label>
+                            [email* your-email class:form-control class:wpcf7-validates-as-required]
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group-lg">
+                            <label id="item5_label_0" style="display: inline;">Phone *</label>
+                            [tel* tel-475 class:form-control class:wpcf7-validates-as-required]
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group-lg">
+                            <label id="item7_label_0" style="display: inline;">Company Name</label>
+                            [text company-name class:form-control]
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group-lg">
+                            <label id="item8_label_0" style="display: inline;">Pickup Date *</label>
+                            [text* pickup-date class:form-control class:wpcf7-validates-as-required placeholder "Select date"]
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group-lg">
+                            <label id="item10_label_0" style="display: inline;">Pickup Time *</label><span class="iconsss fa fa-clock"></span>[select* pickup-time class:form-control class:wpcf7-validates-as-required include_blank "12:00 AM" "12:15 AM" "12:30 AM" "12:45 AM" "1:00 AM" "1:15 AM" "1:30 AM" "1:45 AM" "2:00 AM" "2:15 AM" "2:30 AM" "2:45 AM" "3:00 AM" "3:15 AM" "3:30 AM" "3:45 AM" "4:00 AM" "4:15 AM" "4:30 AM" "4:45 AM" "5:00 AM" "5:15 AM" "5:30 AM" "5:45 AM" "6:00 AM" "6:15 AM" "6:30 AM" "6:45 AM" "7:00 AM" "7:15 AM" "7:30 AM" "7:45 AM" "8:00 AM" "8:15 AM" "8:30 AM" "8:45 AM" "9:00 AM" "9:15 AM" "9:30 AM" "9:45 AM" "10:00 AM" "10:15 AM" "10:30 AM" "10:45 AM" "11:00 AM" "11:15 AM" "11:30 AM" "11:45 AM" "12:00 PM" "12:15 PM" "12:30 PM" "12:45 PM" "1:00 PM" "1:15 PM" "1:30 PM" "1:45 PM" "2:00 PM" "2:15 PM" "2:30 PM" "2:45 PM" "3:00 PM" "3:15 PM" "3:30 PM" "3:45 PM" "4:00 PM" "4:15 PM" "4:30 PM" "4:45 PM" "5:00 PM" "5:15 PM" "5:30 PM" "5:45 PM" "6:00 PM" "6:15 PM" "6:30 PM" "6:45 PM" "7:00 PM" "7:15 PM" "7:30 PM" "7:45 PM" "8:00 PM" "8:15 PM" "8:30 PM" "8:45 PM" "9:00 PM" "9:15 PM" "9:30 PM" "9:45 PM" "10:00 PM" "10:15 PM" "10:30 PM" "10:45 PM" "11:00 PM" "11:15 PM" "11:30 PM" "11:45 PM"]
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group-lg">
+                            <label id="item11_label_0" style="display: inline;">Drop Off Time *</label><span class="iconsss fa fa-clock"></span>[select* drop-time class:form-control class:wpcf7-validates-as-required include_blank "12:00 AM" "12:15 AM" "12:30 AM" "12:45 AM" "1:00 AM" "1:15 AM" "1:30 AM" "1:45 AM" "2:00 AM" "2:15 AM" "2:30 AM" "2:45 AM" "3:00 AM" "3:15 AM" "3:30 AM" "3:45 AM" "4:00 AM" "4:15 AM" "4:30 AM" "4:45 AM" "5:00 AM" "5:15 AM" "5:30 AM" "5:45 AM" "6:00 AM" "6:15 AM" "6:30 AM" "6:45 AM" "7:00 AM" "7:15 AM" "7:30 AM" "7:45 AM" "8:00 AM" "8:15 AM" "8:30 AM" "8:45 AM" "9:00 AM" "9:15 AM" "9:30 AM" "9:45 AM" "10:00 AM" "10:15 AM" "10:30 AM" "10:45 AM" "11:00 AM" "11:15 AM" "11:30 AM" "11:45 AM" "12:00 PM" "12:15 PM" "12:30 PM" "12:45 PM" "1:00 PM" "1:15 PM" "1:30 PM" "1:45 PM" "2:00 PM" "2:15 PM" "2:30 PM" "2:45 PM" "3:00 PM" "3:15 PM" "3:30 PM" "3:45 PM" "4:00 PM" "4:15 PM" "4:30 PM" "4:45 PM" "5:00 PM" "5:15 PM" "5:30 PM" "5:45 PM" "6:00 PM" "6:15 PM" "6:30 PM" "6:45 PM" "7:00 PM" "7:15 PM" "7:30 PM" "7:45 PM" "8:00 PM" "8:15 PM" "8:30 PM" "8:45 PM" "9:00 PM" "9:15 PM" "9:30 PM" "9:45 PM" "10:00 PM" "10:15 PM" "10:30 PM" "10:45 PM" "11:00 PM" "11:15 PM" "11:30 PM" "11:45 PM"]
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group-lg">
+                            <label id="item15_label_0" style="display: inline;">Pickup Address *</label>
+                            [text* address id:search_input class:form-control class:wpcf7-validates-as-required placeholder "If Airport Pickup please provide the Airline and flight number)"]
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group-lg">
+                            <label id="item16_label_0" style="display: inline;">Drop Off Destination *</label>
+                            [text* destination id:drop_input class:form-control class:wpcf7-validates-as-required]
+                        </div>
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group-lg">
+                            <label id="item12_label_0" style="display: inline;">Type of Service *</label>
+                            [select* type-of-service class:form-control class:wpcf7-validates-as-required include_blank "From Airport" "To Airport" "Hourly" "Birthday" "Quinceanera" "Point to Point" "Wedding" "Casino Transfer" "Prom" "Tour" "Transfer" "Evening Out" "Homecoming" "Game" "Anniversary" "Custom Itinerary"]
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group-lg">
+                            <label id="item14_label_0" style="display: inline;">Type of Vehicle *</label>
+                            [select* type-of-vehicle id:type-of-vehicle class:type-of-vehicle class:form-control class:wpcf7-validates-as-required include_blank "Luxury Sedan (3 passengers)" "Mercedes S Class Sedan (3 passengers)" "Luxury Suburban (6 passengers)" "Luxury Escalade (6 passengers)" "Stretch Limousine (10 passengers)" "Passenger Van (10 passengers)"  "Luxury Mercedes Sprinter Van (14 passengers)" "Stretch Hummer Limousine (18 passengers)" "Stretch Escalade Limousine (18 passengers)" "Limo Bus (20 passengers)" "Mini Bus (25 passengers)" "Limo Bus (30 passengers)" "Luxury Executive Shuttle Bus (40 passengers)" "Charter Bus / Motor Coach (55 passengers)"]
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">&nbsp;</div>
+                    <div class="col-md-6 vehicleimg889">
+                        <div id="vehicleImage" style="display: none; max-width: 136px;">
+                            <img id="vehicleImg" src="" alt="Vehicle Image" style="width: 100%; max-width: 300px; height: auto; border-radius: 8px; margin-bottom: 10px;">
+                            <div id="vehicleCapacity" style="font-weight: bold; color: #333; text-align: left; color: red;">
+                                Number of Passengers: <span id="vehiclePassengers"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group-lg">
+                            <label id="item19_label_0" style="display: inline;">Number of Passengers *</label>
+                            [select* number-of-passengers class:form-control class:wpcf7-validates-as-required include_blank "01" "02" "03" "04" "05" "06" "07" "08" "09" "10" "11" "12" "13" "14" "15" "16" "17" "18" "19" "20" "21" "22" "23" "24" "25" "26" "27" "28" "29" "30" "31" "32" "33" "34" "35" "36" "37" "38" "39" "40" "41" "42" "43" "44" "45" "46" "47" "48" "49" "50" "51" "52" "53" "54" "55"]
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group-lg">
+                            <label id="item21_label_0" style="display: inline;">Number of Suitcases</label>
+                            [select number-of-suitcases class:form-control include_blank "01" "02" "03" "04" "05" "06" "07" "08" "09" "10" "11" "12" "13" "14" "15" "16" "17" "18" "19" "20" "21" "22" "23" "24" "25" "26" "27" "28" "29" "30" "31" "32" "33" "34" "35" "36" "37" "38" "39" "40" "41" "42" "43" "44" "45" "46" "47" "48" "49" "50" "51" "52" "53" "54" "55" "56" "57" "58" "59" "60" "61" "62" "63" "64" "65" "66" "67" "68" "69" "70" "71" "72" "73" "74" "75" "76" "77" "78" "79" "80" "81" "82" "83" "84" "85" "86" "87" "88" "89" "90" "91" "92" "93" "94" "95" "96" "97" "98" "99" "100"]
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <label id="item22_label_0" style="display: inline;">Any Other Request</label>
+                        [textarea another class:form-control x4]
+                    </div>
+                </div>
+
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="fb-static-text fb-item-alignment-center">
+                            <p style="color: rgb(171, 24, 24); font-weight: bold;">CARD DETAILS</p>
+                        </div>
+                    </div>
+                </div>        
+    
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group-lg">
+                            <label id="item29_label_0" style="display: inline;">Card Number *</label>
+                            [text* card-number class:form-control class:wpcf7-validates-as-required]
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group-lg">
+                            <label id="item30_label_0" style="display: inline;">Month Expiration *</label>
+                            [select* expiration-month class:form-control class:wpcf7-validates-as-required include_blank "01" "02" "03" "04" "05" "06" "07" "08" "09" "10" "11" "12"]
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group-lg">
+                            <label id="item31_label_0" style="display: inline;">Year Expiration *</label>
+                            [select* expiration-year class:form-control class:wpcf7-validates-as-required include_blank "2024" "2025" "2026" "2027" "2028" "2029" "2030" "2031" "2032" "2033" "2034"]
+                        </div>
+                    </div>
+                </div>
+
+    
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group-lg">
+                            <label id="item32_label_0" style="display: inline;">CSC (Card Security Code) *</label>
+                            [text* csc-number class:form-control class:wpcf7-validates-as-required]
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group-lg">
+                            <label id="item33_label_0" style="display: inline;">Card Holder Name *</label>
+                            [text* card-holder-name class:form-control class:wpcf7-validates-as-required]
+                        </div>
+                    </div>  
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="visamaster089">Visa & Mastercard the 3 digits above the signature area/AMEX 4-digits on the front</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group-lg">
+                            <label id="item34_label_0" style="display: inline;">Card Billing Address *</label>
+                            [text* card-billing-address class:form-control class:wpcf7-validates-as-required]
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group-lg">
+                            <label id="item35_label_0" style="display: inline;">State *</label>
+                            [select* card-billing-state class:form-control class:wpcf7-validates-as-required include_blank "Alabama|AL" "Alaska|AK" "Arizona|AZ" "Arkansas|AR" "California|CA" "Colorado|CO" "Connecticut|CT" "Delaware|DE" "Washington DC|DC" "Florida|FL" "Georgia|GA" "Hawaii|HI" "Idaho|ID" "Illinois|IL" "Indiana|IN" "Iowa|IA" "Kansas|KS" "Kentucky|KY" "Louisiana|LA" "Maine|ME" "Maryland|MD" "Massachusetts|MA" "Michigan|MI" "Minnesota|MN" "Mississippi|MS" "Missouri|MO" "Montana|MT" "Nebraska|NE" "Nevada|NV" "New Hampshire|NH" "New Jersey|NJ" "New Mexico|NM" "New York|NY" "North Carolina|NC" "North Dakota|ND" "Ohio|OH" "Oklahoma|OK" "Oregon|OR" "Pennsylvania|PA" "Rhode Island|RI" "South Carolina|SC" "South Dakota|SD" "Tennessee|TN" "Texas|TX" "Utah|UT" "Vermont|VT" "Virginia|VA" "Washington|WA" "West Virginia|WV" "Wisconsin|WI" "Wyoming|WY"]
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group-lg">
+                            <label id="item36_label_0" style="display: inline;">ZipCode *</label>
+                            [text* card-billing-zipcode class:form-control class:wpcf7-validates-as-required placeholder "Enter your ZipCode"]
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 getcode990">
+                        [submit class:btn class:btn-primary class:btn-lg "Reserve Now"]
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <style>
+    /* Custom styles for form preview */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+    }
+    
+    .cf7-turnstile-placeholder{
+        display: none!important;
+    }
+    .th {
+        align-content: center;
+    }
+    .th .fas {
+        margin-top: 5px;
+        margin-right: 5px;
+    }
+    .th .far {
+        margin-top: 5px;
+        margin-right: 5px;
+    }
+    .th a {
+        text-decoration: none!important;
+    }
+    
+    .get-a-code990 {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        margin: 20px auto;
+        max-width: 1200px;
+    }
+    
+    .please-provide88 {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    
+    .markedrequird {
+        font-style: italic;
+        color: #666;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .form-group-lg {
+        margin-bottom: 20px;
+    }
+    
+    .form-group-lg label {
+        font-weight: 600;
+        margin-bottom: 8px;
+        display: block;
+        color: #333;
+    }
+    
+    .form-control {
+        border-radius: 5px;
+        border: 2px solid #e1e5e9;
+        padding: 12px 15px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+        outline: 0;
+    }
+    
+    .getcode990 {
+        text-align: center;
+        margin-top: 30px;
+    }
+    
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        padding: 15px 40px;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 5px;
+    }
+    
+    .iconsss {
+        margin-right: 8px;
+        top: 47px!important;
+        position: absolute;
+        right: 10px;
+        z-index: 9999;
+        color: #666;  
+    }
+    
+    .vehicleimg889 {
+        padding: 20px;
+    }
+    
+    /* Validation highlighting styles */
+    .wpcf7-form .form-group-lg {
+        position: relative;
+        margin-bottom: 20px;
+    }
+    
+    .wpcf7-form input.field-required-highlight,
+    .wpcf7-form select.field-required-highlight,
+    .wpcf7-form textarea.field-required-highlight {
+        border: 2px solid #e74c3c !important;
+        box-shadow: 0 0 5px rgba(231, 76, 60, 0.3) !important;
+        background-color: #fdf2f2 !important;
+    }
+    
+    .field-error-message {
+        color: #e74c3c;
+        font-size: 12px;
+        margin-top: 5px;
+        display: none;
+    }
+    
+    .wpcf7-form input.field-valid,
+    .wpcf7-form select.field-valid,
+    .wpcf7-form textarea.field-valid {
+        border: 2px solid #27ae60 !important;
+        box-shadow: 0 0 5px rgba(39, 174, 96, 0.3) !important;
+    }
+
+    /* Custom Google Places Autocomplete Styling */
+    .custom-pac-container {
+        font-family: Arial, sans-serif;
+    }
+    
+    .custom-pac-item {
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .custom-pac-item:last-child {
+        border-bottom: none;
+    }
+    
+    .custom-pac-item:hover {
+        background-color: #f8f9fa !important;
+    }
+
+    /* Address error styling */
+    .address-error-message {
+        animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Modern Air Datepicker Styling */
+    .air-datepicker {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+        border: none !important;
+        border-radius: 12px !important;
+        font-family: Arial, sans-serif !important;
+        overflow: hidden !important;
+        background: white !important;
+        min-width: 280px !important;
+    }
+    
+    .air-datepicker.-show- {
+        animation: fadeInUp 0.3s ease-out !important;
+    }
+    
+    /* Header styling */
+    .air-datepicker--nav {
+        background: #007bff !important;
+        color: white !important;
+        border-radius: 12px 12px 0 0 !important;
+        padding: 12px 16px !important;
+        border-bottom: none !important;
+    }
+    
+    .air-datepicker--nav-title,
+    .air-datepicker--nav-action {
+        color: white !important;
+        font-weight: 600 !important;
+    }
+    
+    .air-datepicker--nav-action:hover {
+        background: rgba(255, 255, 255, 0.2) !important;
+        color: white !important;
+        border-radius: 50% !important;
+    }
+    
+    /* Days header */
+    .air-datepicker--days-names {
+        background: #f8f9fa !important;
+        border-bottom: 1px solid #e9ecef !important;
+        padding: 8px 0 !important;
+    }
+    
+    .air-datepicker--day-name {
+        color: #6c757d !important;
+        font-weight: 600 !important;
+        font-size: 12px !important;
+        text-transform: uppercase !important;
+    }
+    
+    /* Days container */
+    .air-datepicker--days {
+        padding: 8px !important;
+        background: white !important;
+    }
+    
+    /* Individual day cells */
+    .air-datepicker--cell {
+        border-radius: 6px !important;
+        color: #495057 !important;
+        font-weight: 500 !important;
+        transition: all 0.2s ease !important;
+        border: 1px solid transparent !important;
+        width: 38px !important;
+        height: 38px !important;
+        line-height: 38px !important;
+        font-size: 14px !important;
+        margin: 1px !important;
+    }
+    
+    .air-datepicker--cell:hover {
+        background: #e3f2fd !important;
+        border-color: #2196f3 !important;
+        color: #1976d2 !important;
+    }
+    
+    .air-datepicker--cell.-selected- {
+        background: #007bff !important;
+        border-color: #007bff !important;
+        color: white !important;
+        font-weight: 600 !important;
+        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3) !important;
+    }
+    
+    .air-datepicker--cell.-current- {
+        border-color: #007bff !important;
+        color: #007bff !important;
+        font-weight: 600 !important;
+        background: rgba(0, 123, 255, 0.1) !important;
+    }
+    
+    .air-datepicker--cell.-current-:hover {
+        background: #007bff !important;
+        color: white !important;
+    }
+    
+    .air-datepicker--cell.-other-month- {
+        color: #ced4da !important;
+        opacity: 0.6 !important;
+    }
+    
+    .air-datepicker--cell.-disabled- {
+        color: #ced4da !important;
+        cursor: not-allowed !important;
+        opacity: 0.5 !important;
+    }
+    
+    /* Input field styling when using Air Datepicker */
+    input[name="pickup-date"] {
+        cursor: pointer !important;
+        background: white !important;
+        position: relative;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23666'%3e%3cpath d='M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1H2zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V5z'/%3e%3c/svg%3e") !important;
+        background-repeat: no-repeat !important;
+        background-position: right 12px center !important;
+        background-size: 16px 16px !important;
+        padding-right: 40px !important;
+    }
+    
+    /* Prevent browser date input styling */
+    input[name="pickup-date"]::-webkit-calendar-picker-indicator {
+        display: none !important;
+        -webkit-appearance: none !important;
+    }
+    
+    input[name="pickup-date"]::-webkit-inner-spin-button,
+    input[name="pickup-date"]::-webkit-outer-spin-button {
+        -webkit-appearance: none !important;
+        margin: 0 !important;
+    }
+    
+    input[name="pickup-date"]:focus {
+        border-color: #007bff !important;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25) !important;
+    }
+    
+    /* Additional Air Datepicker customizations */
+    .air-datepicker--pointer {
+        border-bottom-color: #007bff !important;
+    }
+    
+    .air-datepicker--time {
+        border-top: 1px solid #e9ecef !important;
+        background: #f8f9fa !important;
+    }
+    
+    /* Ensure calendar positioning */
+    .air-datepicker {
+        z-index: 9999 !important;
+        position: absolute !important;
+    }
+    </style>
+    
+</body>
+</html>
