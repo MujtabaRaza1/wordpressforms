@@ -835,7 +835,7 @@
             
             new AirDatepicker(pickupDateInput, {
             minDate: today,
-            dateFormat: 'yyyy-MM-dd',
+            dateFormat: 'MM-dd-yyyy',
             autoClose: true,
             isMobile: false,
             toggleSelected: false,
@@ -863,7 +863,7 @@
                              'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 today: 'Today',
                 clear: 'Clear',
-                dateFormat: 'yyyy-MM-dd',
+                dateFormat: 'MM-dd-yyyy',
                 timeFormat: 'HH:mm',
                 firstDay: 0
             }
