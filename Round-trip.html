@@ -20,14 +20,18 @@
     <div class="row">
         <div id="item27" class="fb-item fb-100-item-column">
             <div class="fb-static-text fb-item-alignment-center">
-                <p style="color: rgb(171, 24, 24); font-weight: bold;">
+                <p style="color: #A70030; font-family: Roboto, Sans-serif; font-weight: bold; font-size: 2rem; text-align: center;">
                     PLEASE PROVIDE YOUR BOOKING DETAILS BELOW:
                 </p>
             </div>
         </div>
         <div id="item24" class="fb-item fb-100-item-column" style="padding-bottom: 5px;">
             <div class="fb-static-text fb-item-alignment-center">
-                <p style="font-size: 12px;">Fields marked with * are required.</p>
+                <p style="font-size: 22px;
+                          text-align: center;
+                          color: #000;
+                          font-weight: 800;">Fields marked with * are required.
+</p>
             </div>
         </div>
     </div>
@@ -119,7 +123,7 @@
                     <div class="col-md-6">
                         <div class="form-group-lg">
                             <label id="item14_label_0" style="display: inline;">Type of Vehicle *</label>
-                            [select* type-of-vehicle id:type-of-roundtrip class:type-of-roundtrip class:form-control class:wpcf7-validates-as-required include_blank "Luxury Sedan (3 passengers)" "Mercedes S Class Sedan (3 passengers)" "Luxury Suburban (6 passengers)" "Luxury Escalade (6 passengers)" "Stretch Limousine (10 passengers)" "Passenger Van (10 passengers)" "Luxury Mercedes Sprinter Van (14 passengers)" "Stretch Hummer Limousine (18 passengers)" "Stretch Escalade Limousine (18 passengers)" "Limo Bus 20 passengers (20 passengers)" "Shuttle Bus 30 Passengers (25 passengers)" "Limo Bus 30 Passengers (30 passengers)" "Luxury Executive Shuttle Bus (40 passengers)" "Charter Bus / Motor Coach (55 passengers)"]
+                            [select* type-of-vehicle id:type-of-roundtrip class:type-of-roundtrip class:form-control class:wpcf7-validates-as-required include_blank "Luxury Sedan (3 passengers)" "Mercedes S Class Sedan (3 passengers)" "Luxury Suburban (6 passengers)" "Luxury Escalade (6 passengers)" "Stretch Limousine (10 passengers)" "Passenger Van (10 passengers)" "Luxury Mercedes Sprinter Van (14 passengers)" "Stretch Hummer Limousine (18 passengers)" "Stretch Escalade Limousine (18 passengers)" "Limo Bus (20 passengers)" "Mini Bus (25 passengers)" "Limo Bus (30 passengers)" "Luxury Executive Shuttle Bus (40 passengers)" "Charter Bus / Motor Coach (55 passengers)"]
                         </div>
                     </div>
                 </div>
@@ -299,7 +303,16 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group-lg">
-                            <label id="item36_label_0" style="display: inline;">ZipCode *</label>
+                            <label id="item36_label_0" style="display: inline;">City *</label>
+                            [text* city class:form-control class:wpcf7-validates-as-required placeholder "Enter your City"]
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group-lg">
+                            <label id="item37_label_0" style="display: inline;">ZipCode *</label>
                             [text* card-billing-zipcode id:roundtripcardbillingzipcode class:form-control class:wpcf7-validates-as-required placeholder "Enter your ZipCode"]
                         </div>
                     </div>

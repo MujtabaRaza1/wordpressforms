@@ -120,7 +120,7 @@
         },
         'Mini Bus (25 passengers)': {
             passengers: 25,
-            suitcases: 15,
+            suitcases: 25,
             image: 'https://www.royalcarriages.com/wp-content/uploads/2025/08/shuttle-buses-12.jpg'
         },
         'Limo Bus (30 passengers)': {
@@ -130,17 +130,17 @@
         },
         'Luxury Mercedes Sprinter Van (14 passengers)': {
             passengers: 14,
-            suitcases: 10,
+            suitcases: 14,
             image: 'https://www.royalcarriages.com/wp-content/uploads/2025/08/mercedes-sprinter-10.jpg'
         },
         'Luxury Executive Shuttle Bus (40 passengers)': {
             passengers: 40,
-            suitcases: 20,
+            suitcases: 40,
             image: 'https://www.royalcarriages.com/wp-content/uploads/2025/08/Executive-Shuttle-Bus-40-Pass.png'
         },
         'Charter Bus / Motor Coach (55 passengers)': {
             passengers: 55,
-            suitcases: 40,
+            suitcases: 55,
             image: 'https://www.royalcarriages.com/wp-content/uploads/2025/08/charter-bus-motor-coach-16.jpeg'
         }
     };
