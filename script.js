@@ -902,6 +902,7 @@
                     var isRequired = field.hasClass('wpcf7-validates-as-required') || field.attr('aria-required') === 'true' || field.prop('required');
                     var isEmpty = false;
                     var errorMessage = 'This field is required.';
+                    var isValid = true;
                     
                     if (field.is('select')) {
                         var value = field.val();
@@ -919,18 +920,33 @@
                         isEmpty = field.val().trim() === '';
                     }
                     
+                    // Check if field is required and empty
                     if (isRequired && isEmpty) {
                         field.addClass('field-required-highlight').removeClass('field-valid');
                         showErrorMessage(field, errorMessage);
                         return false;
-                    } else {
-                        field.removeClass('field-required-highlight');
-                        hideErrorMessage(field);
-                        if (!isEmpty) {
-                            field.addClass('field-valid');
-                        }
-                        return true;
                     }
+                    
+                    // If not empty, validate format for specific field types
+                    if (!isEmpty) {
+                        // Email validation
+                        if (field.hasClass('wpcf7-validates-as-email') || field.attr('type') === 'email') {
+                            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                            if (!emailPattern.test(field.val().trim())) {
+                                field.addClass('field-required-highlight').removeClass('field-valid');
+                                showErrorMessage(field, 'Please enter an email address.');
+                                return false;
+                            }
+                        }
+                    }
+                    
+                    // Field is valid
+                    field.removeClass('field-required-highlight');
+                    hideErrorMessage(field);
+                    if (!isEmpty) {
+                        field.addClass('field-valid');
+                    }
+                    return true;
                 }
                 
                 function showErrorMessage(field, message) {
