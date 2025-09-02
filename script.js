@@ -119,8 +119,8 @@
             image: 'https://www.royalcarriages.com/wp-content/uploads/2025/08/20-passenger-limo-bus-11.jpg'
         },
         'Mini Bus (25 - 30 passengers)': {
-            passengers: 25,
-            suitcases: 25,
+            passengers: 30,
+            suitcases: 30,
             image: 'https://www.royalcarriages.com/wp-content/uploads/2025/08/shuttle-buses-12.jpg'
         },
         'Limo Bus (30 passengers)': {
