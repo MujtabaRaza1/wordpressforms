@@ -34,7 +34,7 @@
     
     // Function to initialize tab listeners for Elementor tabs
     function initializeTabListeners() {
-        console.log('Initializing tab listeners...');
+        // console.log('Initializing tab listeners...');
         
         // Wait a bit for Elementor to be ready
         setTimeout(function() {
@@ -51,7 +51,7 @@
                     tab.addEventListener('click', handleTabClick);
                 });
             } else {
-                console.log('No Elementor tabs found, retrying in 1 second...');
+                // console.log('No Elementor tabs found, retrying in 1 second...');
                 // Retry after 1 second if tabs not found
                 setTimeout(initializeTabListeners, 1000);
             }
