@@ -320,6 +320,7 @@
                         input: query,
                         types: ['geocode'] // Includes addresses, airports, and establishments
                     }, (predictions, status) => {
+                        console.log('Google Places API Response:', { status, predictions, query });
                         dropdown.innerHTML = '';
                         
                         if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
@@ -400,7 +401,12 @@
                                 });
                             });
                         } else {
-                            dropdown.style.display = 'none';
+                            console.error('Google Places API Error:', { status, query });
+                            dropdown.style.display = 'block';
+                            dropdown.innerHTML = `<div style="padding: 16px; color: #d32f2f; text-align: center;">API Error: ${status}</div>`;
+                            setTimeout(() => {
+                                dropdown.style.display = 'none';
+                            }, 3000);
                         }
                     });
                 }, 100);
