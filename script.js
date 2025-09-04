@@ -86,7 +86,7 @@
         'Luxury Suburban (6 passengers)': {
             passengers: 6,
             suitcases: 6,
-            image: 'https://www.royalcarriages.com/wp-content/uploads/2025/08/luxury-suburban-4.png'
+            image: 'https://www.royalcarriages.com/wp-content/uploads/2025/09/2025-suburban-ck10906-1lt-gba-trimselector.jpg'
         },
         'Luxury Escalade (6 passengers)': {
             passengers: 6,
