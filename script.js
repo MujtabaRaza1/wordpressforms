@@ -118,7 +118,7 @@
         'Luxury Executive Shuttle Bus (40 passengers)': {
             passengers: 40,
             suitcases: 40,
-            image: 'https://www.royalcarriages.com/wp-content/uploads/2025/09/Luxury-Executive-Shuttle-Bus-Best-Limo-and-Limo-Service.png'
+            image: 'https://www.royalcarriages.com/wp-content/uploads/2025/09/Luxury-Executive-Shuttle-Bus-Royal-Carriages.png'
         },
         'Charter Bus / Motor Coach (55 passengers)': {
             passengers: 55,
